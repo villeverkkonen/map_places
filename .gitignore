@@ -1,1 +1,22 @@
 /target/
+
+/bin/
+
+*.class
+
+# Package Files #
+*.war
+*.ear
+
+# Eclipse
+.settings/
+*.project
+*.classpath
+.prefs
+*.prefs
+.metadata/
+
+# Intellij
+.idea/
+*.iml
+*.iws
