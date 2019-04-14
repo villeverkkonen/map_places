@@ -5,8 +5,90 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Map Places</title>
         <link rel="shortcut icon" href="/images/favicon.png" type="image/png"/>
+        <!--<link href="/css/map_places.css" rel="stylesheet">-->
+        <style>
+            #map {
+                height: 400px;
+                width: 400px;
+            }
+
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            .content {
+                padding: 20px;
+                margin: auto;
+                width: fit-content;
+            }
+
+            #addPlaceForm {
+                display: none;
+            }
+        </style>
     </head>
     <body>
-        <h1>Map Places</h1>
+        <div class="content">
+            <h1>Map Places</h1>
+
+            <div id="map"></div>
+
+            <button onclick="toggleAddPlaceForm()">Add Place</button>
+            <div id="addPlaceForm">
+                <label for="placeTitle">Title</label>
+                <input type="text" id="placeTitle" />
+                <br />
+                <label for="placeDescription">Description</label>
+                <input type="text" id="placeDescription" />
+                <br />
+                <label for="placeLatitude">Latitude</label>
+                <input type="text" id="placeLatitude" />
+                <br />
+                <label for="placeLongitude">Longitude</label>
+                <input type="text" id="placeLongitude" />
+                <br />
+                <label for="placeOpeningHours">Opening hours</label>
+                <input type="text" id="placeOpeningHours" />
+                <br />
+
+                <button id="addPlaceButton" onclick="addPlace()">Save</button>
+            </div>
+
+            <script src="/js/map_places.js" type="text/javascript"></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfhvycG8ub7GVSlWRH_3dAH5xnkGkXVbg&callback=initMap"
+                    async defer></script>
+            <script>
+                function addPlace() {
+                    var title = document.getElementById("placeTitle").value;
+                    var description = document.getElementById("placeDescription").value;
+                    var latitude = document.getElementById("placeLatitude").value;
+                    var longitude = document.getElementById("placeLongitude").value;
+                    var openingHours = document.getElementById("placeOpeningHours").value;
+                    var latLng = {lat: parseInt(latitude), lng: parseInt(longitude)};
+
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                      zoom: 4,
+                      center: latLng
+                    });
+
+                    var marker = new google.maps.Marker({
+                      position: latLng,
+                      map: map,
+                      title: title
+                    });
+                }
+
+                function toggleAddPlaceForm() {
+                    var addPlaceForm = document.getElementById("addPlaceForm");
+                    if (addPlaceForm.style.display === "block") {
+                        addPlaceForm.style.display = "none";
+                    } else {
+                        addPlaceForm.style.display = "block";
+                    }
+                }
+            </script>
+        </div>
     </body>
 </html>

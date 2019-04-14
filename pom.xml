@@ -23,10 +23,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -35,18 +37,27 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--<dependency>
+            <groupId>nl.geodienstencentrum.maven</groupId>
+            <artifactId>sass-maven-plugin</artifactId>
+            <version>3.7.2</version>
+        </dependency>-->
+
     </dependencies>
 
     <build>
@@ -55,7 +66,112 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--<plugin>
+                <groupId>com.github.warmuuh</groupId>
+                <artifactId>libsass-maven-plugin</artifactId>
+                <version>0.2.8-libsass_3.4.4</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <inputPath>${basedir}/src/main/sass/</inputPath>
+                    <outputPath>${project.build.directory}/classes/static/css</outputPath>
+                    <outputStyle>compressed</outputStyle>
+                    <generateSourceMap>false</generateSourceMap>
+                </configuration>
+            </plugin>-->
+
+            <!--<plugin>
+                <groupId>nl.geodienstencentrum.maven</groupId>
+                <artifactId>sass-maven-plugin</artifactId>
+                <version>3.7.2</version>
+                <executions>
+                    <execution>
+                        <id>lint</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>scss-lint</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>build</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>update-stylesheets</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sassSourceDirectory>
+                        ${project.basedir}/src/main/scss
+                    </sassSourceDirectory>
+                    <destination>
+                        ${project.build.directory}/css
+                    </destination>
+                </configuration>
+            </plugin>-->
+
+            <!--<plugin>
+                <groupId>nl.geodienstencentrum.maven</groupId>
+                <artifactId>sass-maven-plugin</artifactId>
+                <version>3.7.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-css</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>update-stylesheets</goal>
+                        </goals>
+                        <configuration>
+                            <sassSourceDirectory>src/main/scss</sassSourceDirectory>
+                            <destination>${project.build.directory}/css</destination>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <nosuffix>true</nosuffix>
+                    <webappTargetDir>${project.build.directory}/css-min</webappTargetDir>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>minify-css</id>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                        <configuration>
+                            <webappSourceDir>${project.build.directory}</webappSourceDir>
+                            <cssSourceDir>css</cssSourceDir>
+                            <cssSourceIncludes>
+                                <include>*.css</include>
+                            </cssSourceIncludes>
+                            <skipMerge>true</skipMerge>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources combine.children="append">
+                        <resource>
+                            <directory>${project.build.directory}/css-min</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
-
 </project>
