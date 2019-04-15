@@ -4,30 +4,8 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <title>Map Places</title>
-        <link rel="shortcut icon" href="/images/favicon.png" type="image/png"/>
-        <!--<link href="/css/map_places.css" rel="stylesheet">-->
-        <style>
-            #map {
-                height: 400px;
-                width: 400px;
-            }
-
-            html, body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-            }
-
-            .content {
-                padding: 20px;
-                margin: auto;
-                width: fit-content;
-            }
-
-            #addPlaceForm {
-                display: none;
-            }
-        </style>
+        <link rel="shortcut icon" th:href="@{/images/favicon.png}" type="image/png"/>
+        <link th:href="@{/css/map_places.css}" rel="stylesheet">
     </head>
     <body>
         <div class="content">
@@ -37,57 +15,43 @@
 
             <button onclick="toggleAddPlaceForm()">Add Place</button>
             <div id="addPlaceForm">
-                <label for="placeTitle">Title</label>
-                <input type="text" id="placeTitle" />
-                <br />
-                <label for="placeDescription">Description</label>
-                <input type="text" id="placeDescription" />
-                <br />
-                <label for="placeLatitude">Latitude</label>
-                <input type="text" id="placeLatitude" />
-                <br />
-                <label for="placeLongitude">Longitude</label>
-                <input type="text" id="placeLongitude" />
-                <br />
-                <label for="placeOpeningHours">Opening hours</label>
-                <input type="text" id="placeOpeningHours" />
-                <br />
+                <div class="addPlaceInput">
+                    <label for="placeTitle">Title</label>
+                    <input type="text" id="placeTitle" />
+                </div>
+                <div class="addPlaceInput">
+                    <label for="placeDescription">Description</label>
+                    <input type="text" id="placeDescription" class="addPlaceInput" />
+                </div>
+                <div class="addPlaceInput">
+                    <label for="placeLatitude">Latitude</label>
+                    <input type="text" id="placeLatitude" class="addPlaceInput" />
+                </div>
+                <div class="addPlaceInput">
+                    <label for="placeLongitude">Longitude</label>
+                    <input type="text" id="placeLongitude" class="addPlaceInput" />
+                </div>
+                <div class="addPlaceInput">
+                    <label for="placeOpeningHours">Opening hours</label>
+                    <input type="text" id="placeOpeningHours" class="addPlaceInput" />
+                </div>
 
                 <button id="addPlaceButton" onclick="addPlace()">Save</button>
             </div>
 
-            <script src="/js/map_places.js" type="text/javascript"></script>
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfhvycG8ub7GVSlWRH_3dAH5xnkGkXVbg&callback=initMap"
-                    async defer></script>
-            <script>
-                function addPlace() {
-                    var title = document.getElementById("placeTitle").value;
-                    var description = document.getElementById("placeDescription").value;
-                    var latitude = document.getElementById("placeLatitude").value;
-                    var longitude = document.getElementById("placeLongitude").value;
-                    var openingHours = document.getElementById("placeOpeningHours").value;
-                    var latLng = {lat: parseInt(latitude), lng: parseInt(longitude)};
+            <div id="places" th:if="${places != null}" th:fragment="placesList">
+                <ul th:each="place : ${places}">
+                    <li th:text="${place.title}">Title</li>
+                </ul>
+            </div>
 
-                    var map = new google.maps.Map(document.getElementById('map'), {
-                      zoom: 4,
-                      center: latLng
-                    });
-
-                    var marker = new google.maps.Marker({
-                      position: latLng,
-                      map: map,
-                      title: title
-                    });
-                }
-
-                function toggleAddPlaceForm() {
-                    var addPlaceForm = document.getElementById("addPlaceForm");
-                    if (addPlaceForm.style.display === "block") {
-                        addPlaceForm.style.display = "none";
-                    } else {
-                        addPlaceForm.style.display = "block";
-                    }
-                }
+            <script th:src="@{js/map_places.js}"></script>
+            <script th:inline="javascript" th:src="${map_url}"></script>
+            <script th:inline="javascript" async defer>
+                /*<![CDATA[*/
+                    const places = /*[[${places}]]*/ [];
+                /*]]>*/
+                initPlaces(places);
             </script>
         </div>
     </body>

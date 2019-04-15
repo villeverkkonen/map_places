@@ -1,0 +1,20 @@
+#map {
+    height: 400px;
+    width: 400px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    padding: 20px;
+    margin: auto;
+    width: fit-content;
+}
+
+#addPlaceForm {
+    display: none;
+}
