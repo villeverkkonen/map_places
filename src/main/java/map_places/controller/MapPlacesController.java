@@ -4,6 +4,7 @@ import map_places.domain.Place;
 import map_places.repository.PlaceRepository;
 import map_places.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class MapPlacesController {
 
     @Autowired
     private PlaceService placeService;
 
     @PostMapping("/add_place")
-    public Place addPlace(@RequestBody Place placeParams) throws Exception {
+    public String addPlace(@RequestBody Place placeParams, Model model) throws Exception {
         Place place = new Place();
         place.setTitle(placeParams.getTitle());
         place.setDescription(placeParams.getDescription());
@@ -27,12 +28,18 @@ public class MapPlacesController {
         place.setOpeningHours(placeParams.getOpeningHours());
         this.placeService.save(place);
 
-        return place;
+        model.addAttribute("places", this.placeService.findAll());
+
+        return "fragments/places_list::placesList";
     }
 
-    @GetMapping("/get_places")
-    public String getPlaces(Model model) {
+    @PostMapping("/delete_place/{id}")
+    public String deletePlace(@PathVariable("id") Long id, Model model) throws Exception {
+        Place place = this.placeService.findById(id);
+        this.placeService.delete(place);
+
         model.addAttribute("places", this.placeService.findAll());
-        return "index :: placesList";
+
+        return "fragments/places_list::placesList";
     }
 }

@@ -1,4 +1,6 @@
 let map;
+let markers = [];
+let placesList = [];
 
 function initMap() {
     /*map = new google.maps.Map(document.getElementById('map'), {
@@ -14,25 +16,12 @@ function initPlaces(places) {
     });
 
     for (let i = 0; i < places.length; i++) {
-        const marker = new google.maps.Marker({
-            position: {lat: parseInt(places[i].latitude), lng: parseInt(places[i].longitude)},
-            map: map,
-            title: places[i].title
-        });
-
-        const infoWindow = new google.maps.InfoWindow({
-            content: "<h1>" + places[i].title + "</h1>"
-                + "<p>" + places[i].description + "</p>"
-                + "<p>" + places[i].openingHours + "</p>"
-        });
-
-        marker.addListener("click", function() {
-            if (infoWindow) {
-                infoWindow.close();
-            }
-            infoWindow.open(map, marker);
-        });
+        placesList.push(places[i]);
     }
+
+    createMarkers(places);
+    console.log("init Places placesList: ");
+    console.log(placesList);
 }
 
 function addPlace() {
@@ -59,6 +48,9 @@ function addPlace() {
 	    infoWindow.open(map, marker);
 	});
 
+	markers.push(marker);
+	console.log("addPlace MARKERS length: " + markers.length)
+
     fetch("/add_place", {
        method: "POST",
        body: JSON.stringify({
@@ -73,28 +65,82 @@ function addPlace() {
        }
     })
         .then(function(res){
-           return res.json();
+           return res.text();
         }).then(function(data){
-           console.log("Place added!");
-           console.log(data);
+           document.querySelector("#placesList").innerHTML = data;
         }).catch((error) => {
            console.log(error);
         });
 
+    refreshPlacesList();
+}
+
+function refreshPlacesList() {
     fetch("/get_places", {
-        method: "GET"
+           method: "GET"
+        })
+            .then(function(res){
+               return res.json();
+            }).then(function(data){
+               placesList = data;
+            }).catch((error) => {
+               console.log(error);
+            });
+}
+
+function deletePlace(id, places) {
+    fetch("/delete_place/" + id, {
+       method: "POST"
     })
-        .then(function(res) {
-            console.log("RES");
-            console.log(res);
-            return res;
-        }).then(function(data) {
-            console.log("DATA");
-            console.log(data);
-            document.querySelector("#places").innerHTML = data;
+        .then(function(res){
+           return res.text();
+        }).then(function(data){
+           document.querySelector("#placesList").innerHTML = data;
         }).catch((error) => {
-            console.log(error);
+           console.log(error);
         });
+    refreshPlacesList();
+    refreshMarkers(places);
+}
+
+function refreshMarkers(places) {
+    deleteMarkers();
+    createMarkers(places);
+}
+
+function deleteMarkers() {
+    setMapOnAll(null);
+    markers = [];
+  }
+
+function createMarkers(places) {
+    for (let i = 0; i < places.length; i++) {
+        const marker = new google.maps.Marker({
+            position: {lat: parseInt(places[i].latitude), lng: parseInt(places[i].longitude)},
+            map: map,
+            title: places[i].title
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+            content: "<h1>" + places[i].title + "</h1>"
+                + "<p>" + places[i].description + "</p>"
+                + "<p>" + places[i].openingHours + "</p>"
+        });
+
+        marker.addListener("click", function() {
+            if (infoWindow) {
+                infoWindow.close();
+            }
+            infoWindow.open(map, marker);
+        });
+        markers.push(marker);
+    }
+}
+
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
+    }
 }
 
 function toggleAddPlaceForm() {

@@ -20,7 +20,17 @@ public class PlaceService {
         return this.placeRepository.findAll();
     }
 
+    public Place findById(Long id) {
+        Place place = this.placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        return place;
+    }
+
     public void save(Place place) {
         this.placeRepository.save(place);
+    }
+
+    public void delete(Place place) {
+        this.placeRepository.delete(place);
     }
 }

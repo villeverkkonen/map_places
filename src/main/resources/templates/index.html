@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -39,19 +39,25 @@
                 <button id="addPlaceButton" onclick="addPlace()">Save</button>
             </div>
 
-            <div id="places" th:if="${places != null}" th:fragment="placesList">
-                <ul th:each="place : ${places}">
-                    <li th:text="${place.title}">Title</li>
-                </ul>
+            <div id="placesList" th:fragment="placesList">
+                <div id="places" th:if="${places != null}">
+                    <th:block th:each="place : ${places}">
+                        <div>
+                            <span th:text="${place.title}">Title</span> <button class="deleteButton" th:onclick="'javascript:getDeletePlace(\'' + ${place.id} + '\');'">x</button>
+                        </div>
+                    </th:block>
+                </div>
             </div>
 
             <script th:src="@{js/map_places.js}"></script>
             <script th:inline="javascript" th:src="${map_url}"></script>
             <script th:inline="javascript" async defer>
-                /*<![CDATA[*/
-                    const places = /*[[${places}]]*/ [];
-                /*]]>*/
+                const places = /*[[${places}]]*/ [];
                 initPlaces(places);
+
+                function getDeletePlace(id) {
+                    deletePlace(id, places);
+                }
             </script>
         </div>
     </body>

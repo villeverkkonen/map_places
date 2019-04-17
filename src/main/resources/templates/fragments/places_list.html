@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <div id="placesList" th:fragment="placesList">
+        <div id="places" th:if="${places != null}">
+            <th:block th:each="place : ${places}">
+                <div>
+                    <span th:text="${place.title}">Title</span> <button class="deleteButton" th:onclick="'javascript:getDeletePlace(\'' + ${place.id} + '\');'">x</button>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</body>
+</html>

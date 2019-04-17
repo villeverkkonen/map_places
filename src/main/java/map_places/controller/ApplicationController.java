@@ -28,9 +28,6 @@ public class ApplicationController {
 
         Place place2 = new Place("Testi2", "Tämä on testi 2.", "61", "26", "10-12");
         this.placeRepository.save(place2);
-
-        Place place3 = new Place("Testi3", "Tämä on testi 3.", "62", "27", "12-14");
-        this.placeRepository.save(place3);
     }
 
     @GetMapping("/")
