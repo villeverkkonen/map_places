@@ -16,7 +16,7 @@ public class RestPlacesController {
     @Autowired
     private PlaceService placeService;
 
-    @RequestMapping(value = "/get_places", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/places", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Place> getPlaces() throws Exception {
         return this.placeService.findAll();
     }

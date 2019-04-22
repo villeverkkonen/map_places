@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div th:fragment="editPlace">
+    <div class="editPlaceForm">
+        <div class="addPlaceInput">
+            <label th:for="placeTitle">Title</label>
+            <input type="text" th:id="'updateTitle' + ${place.id}" class="addPlaceInput" th:value="${place.title}" />
+        </div>
+        <div class="addPlaceInput">
+            <label th:for="placeDescription">Description</label>
+            <input type="text" th:id="'updateDescription' + ${place.id}" class="addPlaceInput" th:value="${place.description}" />
+        </div>
+        <div class="addPlaceInput">
+            <label th:for="placeLatitude">Latitude</label>
+            <input type="text" th:id="'updateLatitude' + ${place.id}" class="addPlaceInput" th:value="${place.latitude}" />
+        </div>
+        <div class="addPlaceInput">
+            <label th:for="placeLongitude">Longitude</label>
+            <input type="text" th:id="'updateLongitude' + ${place.id}" class="addPlaceInput" th:value="${place.longitude}" />
+        </div>
+        <div class="addPlaceInput">
+            <label th:for="placeOpeningHours">Opening hours</label>
+            <input type="text" th:id="'updateOpeningHours' + ${place.id}" class="addPlaceInput" th:value="${place.openingHours}" />
+        </div>
+
+        <button id="updatePlaceButton" th:onclick="'updatePlace(' + ${place.id} + ')'">Save</button>
+    </div>
+</div>
+</body>
+</html>

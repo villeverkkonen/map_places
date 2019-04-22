@@ -27,10 +27,27 @@ public class PlaceService {
     }
 
     public void save(Place place) {
+        /*Place place = new Place();
+        place.setTitle(placeParams.getTitle());
+        place.setDescription(placeParams.getDescription());
+        place.setLatitude(placeParams.getLatitude());
+        place.setLongitude(placeParams.getLongitude());
+        place.setOpeningHours(placeParams.getOpeningHours());*/
         this.placeRepository.save(place);
     }
 
     public void delete(Place place) {
         this.placeRepository.delete(place);
+    }
+
+    public void update(Place placeParams, Long id) {
+        Place place = this.placeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        place.setTitle(placeParams.getTitle());
+        place.setDescription(placeParams.getDescription());
+        place.setLatitude(placeParams.getLatitude());
+        place.setLongitude(placeParams.getLongitude());
+        place.setOpeningHours(placeParams.getOpeningHours());
+        this.placeRepository.save(place);
     }
 }

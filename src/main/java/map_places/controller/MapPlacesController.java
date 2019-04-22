@@ -18,28 +18,32 @@ public class MapPlacesController {
     @Autowired
     private PlaceService placeService;
 
-    @PostMapping("/add_place")
+    @PostMapping("/places/create")
     public String addPlace(@RequestBody Place placeParams, Model model) throws Exception {
-        Place place = new Place();
-        place.setTitle(placeParams.getTitle());
-        place.setDescription(placeParams.getDescription());
-        place.setLatitude(placeParams.getLatitude());
-        place.setLongitude(placeParams.getLongitude());
-        place.setOpeningHours(placeParams.getOpeningHours());
-        this.placeService.save(place);
-
+        this.placeService.save(placeParams);
         model.addAttribute("places", this.placeService.findAll());
-
         return "fragments/places_list::placesList";
     }
 
-    @PostMapping("/delete_place/{id}")
+    @GetMapping("/places/edit/{id}")
+    public String editPlace(@PathVariable("id") Long id, Model model) throws Exception {
+        Place place = this.placeService.findById(id);
+        model.addAttribute("place", place);
+        return "fragments/edit_place::editPlace";
+    }
+
+    @PutMapping("/places/update/{id}")
+    public String updatePlace(@RequestBody Place placeParams, @PathVariable("id") Long id, Model model) throws Exception {
+        this.placeService.update(placeParams, id);
+        model.addAttribute("places", this.placeService.findAll());
+        return "fragments/places_list::placesList";
+    }
+
+    @DeleteMapping("/places/delete/{id}")
     public String deletePlace(@PathVariable("id") Long id, Model model) throws Exception {
         Place place = this.placeService.findById(id);
         this.placeService.delete(place);
-
         model.addAttribute("places", this.placeService.findAll());
-
         return "fragments/places_list::placesList";
     }
 }

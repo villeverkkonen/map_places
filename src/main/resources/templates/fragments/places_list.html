@@ -7,7 +7,16 @@
         <div id="places" th:if="${places != null}">
             <th:block th:each="place : ${places}">
                 <div>
-                    <span th:text="${place.title}">Title</span> <button class="deleteButton" th:onclick="'javascript:getDeletePlace(\'' + ${place.id} + '\');'">x</button>
+                    <p class="placeLink" th:onclick="'javascript:showPlace(\'' + ${place.id} + '\')'" th:text="${place.title}">Title</p>
+                    <div class="showPlace" th:id="'showPlace' + ${place.id}">
+                        <div>
+                            <p th:text="${place.description}">Description</p>
+                            <p>Open: <span th:text="${place.openingHours}">Open</span></p>
+                            <button class="deleteButton" th:onclick="'javascript:deletePlace(\'' + ${place.id} + '\')'">Delete</button>
+                            <button class="editButton" th:onclick="'javascript:editPlace(\'' + ${place.id} + '\')'">Update</button>
+                        </div>
+                    </div>
+                    <div th:fragment="editPlace" th:id="'editPlace' + ${place.id}"></div>
                 </div>
             </th:block>
         </div>

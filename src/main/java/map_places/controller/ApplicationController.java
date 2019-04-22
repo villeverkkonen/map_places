@@ -32,7 +32,7 @@ public class ApplicationController {
 
     @GetMapping("/")
     public String home(Model model) {
-        String map_url = "https://maps.googleapis.com/maps/api/js?key=" + this.api_key + "&callback=initMap";
+        String map_url = "https://maps.googleapis.com/maps/api/js?key=" + this.api_key;
         model.addAttribute("map_url", map_url);
         model.addAttribute("places", placeRepository.findAll());
         return "index";

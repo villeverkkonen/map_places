@@ -1,6 +1,6 @@
 #map {
-    height: 400px;
-    width: 400px;
+    height: 35vw;
+    width: 50vh;
 }
 
 html, body {
@@ -17,4 +17,14 @@ html, body {
 
 #addPlaceForm {
     display: none;
+}
+
+.showPlace {
+    display: none;
+}
+
+.placeLink {
+    cursor: pointer;
+    text-decoration: underline;
+    color: blue;
 }

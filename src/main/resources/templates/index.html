@@ -17,7 +17,7 @@
             <div id="addPlaceForm">
                 <div class="addPlaceInput">
                     <label for="placeTitle">Title</label>
-                    <input type="text" id="placeTitle" />
+                    <input type="text" id="placeTitle" class="addPlaceInput" />
                 </div>
                 <div class="addPlaceInput">
                     <label for="placeDescription">Description</label>
@@ -43,22 +43,26 @@
                 <div id="places" th:if="${places != null}">
                     <th:block th:each="place : ${places}">
                         <div>
-                            <span th:text="${place.title}">Title</span> <button class="deleteButton" th:onclick="'javascript:getDeletePlace(\'' + ${place.id} + '\');'">x</button>
+                            <p class="placeLink" th:onclick="'javascript:showPlace(\'' + ${place.id} + '\')'" th:text="${place.title}">Title</p>
+                            <div class="showPlace" th:id="'showPlace' + ${place.id}">
+                                <div>
+                                    <p th:text="${place.description}">Description</p>
+                                    <p>Open: <span th:text="${place.openingHours}">Open</span></p>
+                                    <button class="deleteButton" th:onclick="'javascript:deletePlace(\'' + ${place.id} + '\')'">Delete</button>
+                                    <button class="editButton" th:onclick="'javascript:editPlace(\'' + ${place.id} + '\')'">Update</button>
+                                </div>
+                            </div>
+                            <div th:fragment="editPlace" th:id="'editPlace' + ${place.id}"></div>
                         </div>
                     </th:block>
                 </div>
             </div>
-
-            <script th:src="@{js/map_places.js}"></script>
-            <script th:inline="javascript" th:src="${map_url}"></script>
-            <script th:inline="javascript" async defer>
-                const places = /*[[${places}]]*/ [];
-                initPlaces(places);
-
-                function getDeletePlace(id) {
-                    deletePlace(id, places);
-                }
-            </script>
         </div>
+        <script th:src="@{js/map_places.js}"></script>
+        <script th:inline="javascript" th:src="${map_url}"></script>
+        <script th:inline="javascript" async defer>
+                const places = /*[[${places}]]*/ [];
+                initMap(places);
+        </script>
     </body>
 </html>
