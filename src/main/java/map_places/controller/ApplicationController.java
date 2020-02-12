@@ -15,8 +15,8 @@ import javax.annotation.PostConstruct;
 @Controller
 public class ApplicationController {
 
-    @Value("${api_key}")
-    private String api_key;
+    @Value("${API_KEY}")
+    private String API_KEY;
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -32,7 +32,7 @@ public class ApplicationController {
 
     @GetMapping("/")
     public String home(Model model) {
-        String map_url = "https://maps.googleapis.com/maps/api/js?key=" + this.api_key;
+        String map_url = "https://maps.googleapis.com/maps/api/js?key=" + this.API_KEY;
         model.addAttribute("map_url", map_url);
         model.addAttribute("places", placeRepository.findAll());
         return "index";

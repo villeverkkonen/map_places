@@ -27,12 +27,6 @@ public class PlaceService {
     }
 
     public void save(Place place) {
-        /*Place place = new Place();
-        place.setTitle(placeParams.getTitle());
-        place.setDescription(placeParams.getDescription());
-        place.setLatitude(placeParams.getLatitude());
-        place.setLongitude(placeParams.getLongitude());
-        place.setOpeningHours(placeParams.getOpeningHours());*/
         this.placeRepository.save(place);
     }
 
